@@ -116,6 +116,13 @@ all.config
 # Kdevelop4
 *.kdev4
 
+# out-kernel
+out
+phone_build.sh
+server_build.sh
+stic-jenkins
+stic-debug-kernel
+
 # fetched Android config fragments
 kernel/configs/android-*.cfg
 
