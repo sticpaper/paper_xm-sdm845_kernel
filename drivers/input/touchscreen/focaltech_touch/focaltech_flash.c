@@ -1713,17 +1713,14 @@ static int fts_fwupg_get_fw_file(struct fts_ts_data *ts_data)
 #endif
 	for (i = 0; i < sizeof(fw_list)/sizeof(fw_list[0]); i++) {
 		fw = &fw_list[i];
-		len = strlen(ts_data->pdata->project_name) > strlen(fw->project_name) ?
-				strlen(ts_data->pdata->project_name) : strlen(fw->project_name);
+		len = strlen(ts_data->pdata->project_name) > strlen(fw->project_name) ? strlen(ts_data->pdata->project_name) : strlen(fw->project_name);
 #ifdef FW_UPDATE_BY_VENDOR_ID
-		if (ts_data->pdata->project_name &&
-				!strncmp(ts_data->pdata->project_name, fw->project_name, len) && vendor_id == fw->vendor_id) {
+		if (ts_data->pdata->project_name && !strncmp(ts_data->pdata->project_name, fw->project_name, len) && vendor_id == fw->vendor_id) {
 			FTS_INFO("project id and vendor id match, get fw file successfully");
 			break;
 		}
 #else
-		if (ts_data->pdata->project_name &&
-				!strncmp(ts_data->pdata->project_name, fw->project_name, strlen(ts_data->pdata->project_name))) {
+		if (ts_data->pdata->project_name && !strncmp(ts_data->pdata->project_name, fw->project_name, strlen(ts_data->pdata->project_name))) {
 			FTS_INFO("vendor id match, get fw file successfully");
 			break;
 		}

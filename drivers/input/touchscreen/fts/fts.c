@@ -131,7 +131,7 @@ static const char *fts_get_limit(struct fts_ts_info *info);
 static void fts_clear_point(struct fts_ts_info *info);
 #endif
 #ifdef CONFIG_INPUT_PRESS_NDT
-bool aod_mode;
+bool aod_mode = false;
 #endif
 
 unsigned int le_to_uint(const unsigned char *ptr)
@@ -1443,7 +1443,7 @@ static bool fts_is_in_fodarea(int x, int y)
 		return false;
 }
 #endif
-bool finger_report_flag;
+bool finger_report_flag = false;
 static unsigned char *fts_enter_pointer_event_handler(struct fts_ts_info *info, unsigned char *event)
 {
 	unsigned char touchId, touchcount;
@@ -1920,7 +1920,6 @@ static unsigned char *fts_gesture_event_handler(struct fts_ts_info *info, unsign
 {
 	unsigned char touchId;
 	int value;
-	char ch[64] = {0x0,};
 
 	if (!info->gesture_enabled)
 		return fts_next_event(event);
@@ -3709,7 +3708,6 @@ static int fts_probe(struct i2c_client *client, const struct i2c_device_id *idp)
 	}
 
 	update_hardware_info(TYPE_TOUCH, 4);
-
 	error = fts_get_lockdown_info(info->lockdown_info);
 
 	if (error < OK)
@@ -3772,7 +3770,6 @@ static int fts_probe(struct i2c_client *client, const struct i2c_device_id *idp)
 	}
 
 #endif
-
 	info->tp_selftest_proc = proc_create("tp_selftest", 0, NULL, &fts_selftest_ops);
 	info->tp_data_dump_proc = proc_create("tp_data_dump", 0, NULL, &fts_datadump_ops);
 	info->tp_fw_version_proc = proc_create("tp_fw_version", 0, NULL, &fts_fw_version_ops);
@@ -3780,7 +3777,6 @@ static int fts_probe(struct i2c_client *client, const struct i2c_device_id *idp)
 	queue_delayed_work(info->fwu_workqueue, &info->fwu_work, msecs_to_jiffies(EXP_FN_WORK_DELAY_MS));
 
 	return OK;
-
 #ifdef DRIVER_TEST
 ProbeErrorExit_11:
 	device_destroy(fts_cmd_class, DCHIP_ID_1);

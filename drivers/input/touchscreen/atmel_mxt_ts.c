@@ -2,7 +2,6 @@
  * Atmel maXTouch Touchscreen driver
  *
  * Copyright (C) 2010 Samsung Electronics Co.Ltd
- * Copyright (C) 2018 XiaoMi, Inc.
  * Copyright (C) 2011 Atmel Corporation
  * Author: Joonyoung Shim <jy0922.shim@samsung.com>
  *
@@ -2969,18 +2968,6 @@ static int mxt_configure_regulator(struct mxt_data *data, bool enabled)
 		goto err_null_regulator_vddio;
 	}
 
-#if 0
-	if (regulator_count_voltages(data->regulator_vddio) > 1) {
-		ret = regulator_set_voltage(data->regulator_vddio,
-				MXT_VDDIO_MIN_UV, MXT_VDDIO_MAX_UV);
-		if (ret < 0) {
-			dev_err(&client->dev,
-				"regulator_set_voltage for vddio failed: %d\n", ret);
-			return ret;
-		}
-	}
-#endif
-
 	ret = regulator_enable(data->regulator_vddio);
 	if (ret < 0) {
 		dev_err(&client->dev,
@@ -3082,7 +3069,7 @@ static int mxt_do_self_tune(struct mxt_data *data, u8 cmd)
 
 	error = mxt_wait_for_self_tune_msg(data, cmd);
 
-	if(!error) {
+	if (!error) {
 		if (data->selfcap_status.error_code != 0)
 			return -EINVAL;
 	}

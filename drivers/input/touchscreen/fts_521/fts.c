@@ -2268,6 +2268,7 @@ static ssize_t fts_grip_area_store(struct device *dev,
 	u8 cmd[4] = {FTS_CMD_CUSTOM, 0x01, 0x01, 0x00};
 	int ret = 0;
 	struct fts_ts_info *info = dev_get_drvdata(dev);
+
 	logError(1, " %s %s,buf:%s,count:%zu\n", tag, __func__, buf, count);
 	sscanf(buf, "%u", &info->grip_pixel);
 	cmd[3] = info->grip_pixel;
@@ -2355,29 +2356,6 @@ static void fts_secure_work(struct fts_secure_info *scr_info)
 	logError(1, "%s %s SECURE_FILTER:enable irq\n", tag, __func__);
 }
 
-/*
-static void fts_palm_store_delay(struct fts_secure_info *scr_info)
-{
-	int ret;
-	struct fts_ts_info *info = scr_info->fts_info;
-
-	logError(1, "%s %s IN", tag, __func__);
-	ret = fts_palm_sensor_cmd(scr_info->scr_delay.palm_value);
-	if (!ret)
-		info->palm_sensor_changed = true;
-	logError(1, "%s %s OUT", tag, __func__);
-}
-
-
-static void fts_flush_delay_task(struct fts_secure_info *scr_info)
-{
-	if (scr_info->scr_delay.palm_pending) {
-		fts_palm_store_delay(scr_info);
-		scr_info->scr_delay.palm_pending = false;
-	}
-}
-*/
-
 static int fts_secure_filter_interrupt(struct fts_ts_info *info)
 {
 	struct fts_secure_info *scr_info = info->secure_info;
@@ -2447,14 +2425,11 @@ static ssize_t fts_secure_touch_enable_store (struct device *dev, struct device_
 				tag, __func__);
 			return ret;
 		}
-//		mutex_lock(&scr_info->palm_lock);
 		atomic_set(&scr_info->st_enabled, 0);
 		fts_secure_touch_notify(info);
 		complete(&scr_info->st_irq_processed);
 		fts_event_handler(info->client->irq, info);
 		complete(&scr_info->st_powerdown);
-//		fts_flush_delay_task(scr_info);
-//		mutex_unlock(&scr_info->palm_lock);
 		logError(1, "%s %s SECURE_TOUCH_ENABLE[W]:disable secure touch successful\n",
 			tag, __func__);
 	break;
@@ -2464,7 +2439,6 @@ static ssize_t fts_secure_touch_enable_store (struct device *dev, struct device_
 				tag, __func__);
 			return ret;
 		}
-//		mutex_lock(&scr_info->palm_lock);
 		/*wait until finish process all normal irq*/
 		synchronize_irq(info->client->irq);
 
@@ -2473,7 +2447,6 @@ static ssize_t fts_secure_touch_enable_store (struct device *dev, struct device_
 		reinit_completion(&scr_info->st_irq_processed);
 		atomic_set(&scr_info->st_pending_irqs, 0);
 		atomic_set(&scr_info->st_enabled, 1);
-//		mutex_unlock(&scr_info->palm_lock);
 		logError(1, "%s %s SECURE_TOUCH_ENABLE[W]:enable secure touch successful\n",
 			tag, __func__);
 	break;
@@ -2784,10 +2757,9 @@ static void fts_enter_pointer_event_handler(struct fts_ts_info *info,
 
 	input_mt_report_slot_state(info->input_dev, tool, 1);
 	input_report_key(info->input_dev, BTN_TOUCH, touch_condition);
-	if (touch_condition)
+	if (touch_condition) {
 		input_report_key(info->input_dev, BTN_TOOL_FINGER, 1);
-
-	/*input_report_abs(info->input_dev, ABS_MT_TRACKING_ID, touchId); */
+		/*input_report_abs(info->input_dev, ABS_MT_TRACKING_ID, touchId); */
 		input_report_abs(info->input_dev, ABS_MT_POSITION_X, x);
 		input_report_abs(info->input_dev, ABS_MT_POSITION_Y, y);
 		input_report_abs(info->input_dev, ABS_MT_TOUCH_MAJOR, z);
@@ -2797,6 +2769,7 @@ static void fts_enter_pointer_event_handler(struct fts_ts_info *info,
 		input_report_abs(info->input_dev, ABS_MT_PRESSURE, z);
 #endif
 		input_sync(info->input_dev);
+	}
 	dev_dbg(info->dev,
 		"%s  %s :  Event 0x%02x - ID[%d], (x, y, z) = (%3d, %3d, %3d) type = %d\n",
 		tag, __func__, *event, touchId, x, y, z, touchType);
@@ -4145,6 +4118,7 @@ static int fts_mode_handler(struct fts_ts_info *info, int force)
 static void fts_resume_work(struct work_struct *work)
 {
 	struct fts_ts_info *info;
+
 	info = container_of(work, struct fts_ts_info, resume_work);
 
 #ifdef CONFIG_SECURE_TOUCH
@@ -4173,6 +4147,7 @@ static void fts_resume_work(struct work_struct *work)
 static void fts_suspend_work(struct work_struct *work)
 {
 	struct fts_ts_info *info;
+
 	info = container_of(work, struct fts_ts_info, suspend_work);
 
 #ifdef CONFIG_SECURE_TOUCH
@@ -4489,7 +4464,6 @@ err_pinctrl_get:
 	info->ts_pinctrl = NULL;
 	return retval;
 }
-
 
 /**
  * Retrieve and parse the hw information from the device tree node defined in the system.
@@ -5563,6 +5537,7 @@ static int fts_probe(struct spi_device *client)
 		error = -ENODEV;
 		goto ProbeErrorExit_7;
 	}
+
 
 	error = fts_proc_init();
 	if (error < OK)
