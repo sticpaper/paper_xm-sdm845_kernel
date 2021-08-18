@@ -892,7 +892,7 @@ int dsi_display_read_panel(struct dsi_panel *panel, struct dsi_read_config *read
 		goto exit;
 	}
 
-	for (i = 0; i < read_config->cmds_rlen; i++) //debug
+	for (i = 0; i < read_config->cmds_rlen; i++)
 		pr_info("0x%x ", read_config->rbuf[i]);
 	pr_info("\n");
 
