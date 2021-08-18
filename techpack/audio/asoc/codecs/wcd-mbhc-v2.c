@@ -1502,7 +1502,7 @@ static int wcd_mbhc_usb_c_analog_setup_gpios(struct wcd_mbhc *mbhc,
 		WCD_MBHC_REG_UPDATE_BITS(WCD_MBHC_MIC_CLAMP_CTL, 2);
 		mbhc->mbhc_cfg->enable_dual_adc_gpio(mbhc->mbhc_cfg->dual_adc_gpio_node, 0);
 
-		/* using hardware auto switch gnd and mic if support */
+		/*using hardware auto switch gnd and mic if support*/
 		if (config->euro_us_hw_switch_gpio_p) {
 			msm_cdc_pinctrl_select_active_state(config->euro_us_hw_switch_gpio_p);
 			msleep(200);
