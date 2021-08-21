@@ -5,7 +5,6 @@
  *
  * Copyright (C) 2012 Alexandra Chin <alexandra.chin@tw.synaptics.com>
  * Copyright (C) 2012 Scott Lin <scott.lin@tw.synaptics.com>
- * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -384,6 +383,11 @@ struct synaptics_rmi4_data {
 	int force_max;
 	int chip_id;
 	int touchs;
+	unsigned int palm_tx_grip_disable;
+	unsigned int palm_tx_area_threshold;
+	unsigned int palm_tx_channel_threshold;
+	unsigned int palm_rx_area_threshold;
+	unsigned int palm_rx_channel_threshold;
 	bool flash_prog_mode;
 	bool irq_enabled;
 	bool fingers_on_2d;
@@ -401,6 +405,8 @@ struct synaptics_rmi4_data {
 	bool external_afe_buttons;
 	bool fw_updating;
 	bool wakeup_en;
+	bool palm_enabled;
+	bool report_palm;
 	bool chip_is_tddi;
 	bool open_test_b7;
 	bool short_test_extend;
@@ -435,6 +441,7 @@ struct synaptics_rmi4_data {
 	struct clk *core_clk;
 	struct clk *iface_clk;
 #endif
+	bool palm_sensor_changed;
 };
 
 struct synaptics_dsx_bus_access {
