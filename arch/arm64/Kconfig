@@ -1406,6 +1406,12 @@ config MACH_XIAOMI_D5X
         help
           Support for Xiaomi MIX 2S (polaris)
 
+config MACH_XIAOMI_D5X_MIUI
+        bool "D5X board MIUI Kernel"
+        select MACH_XIAOMI_D5X
+        help
+          Support for Xiaomi MIX 2S (polaris) miui kernel
+
 config MACH_XIAOMI_E1N
         bool "E1N board"
         select MACH_XIAOMI_SDM845
