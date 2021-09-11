@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2016-2020, The Linux Foundation. All rights reserved.
- * Copyright (C) 2018 XiaoMi, Inc.
+ * Copyright (C) 2019 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -197,6 +197,8 @@ int dsi_display_set_backlight(void *display, u32 bl_lvl)
 		rc = dsi_panel_enable_doze_backlight(panel, (u32)bl_temp);
 		if (rc)
 			pr_err("unable to enable doze backlight\n");
+	} else if (drm_dev && drm_dev->doze_state == DRM_BLANK_LP2) {
+		pr_err("unable to set doze backlight in LP2 state:%u\n", (u32)bl_temp);
 	} else {
 		drm_dev->doze_brightness = DOZE_BRIGHTNESS_INVALID;
 		rc = dsi_panel_set_backlight(panel, (u32)bl_temp);
@@ -1185,7 +1187,6 @@ int dsi_display_set_power(struct drm_connector *connector,
 	struct drm_notify_data g_notify_data;
 	int rc = 0;
 	int event = 0;
-
 	if (!display || !display->panel) {
 		pr_err("invalid display/panel\n");
 		return -EINVAL;
@@ -5318,7 +5319,9 @@ int dsi_display_dev_probe(struct platform_device *pdev)
 				secondary_active_node = NULL;
 				pr_debug("removed the existing comp ops\n");
 			}
+
 			display->is_active = true;
+
 			dsi_display_parse_cmdline_topology(display,
 					DSI_SECONDARY);
 			secondary_np = pdev->dev.of_node;

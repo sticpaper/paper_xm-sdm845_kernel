@@ -5,7 +5,6 @@
  *
  * Copyright (C) 2012 Alexandra Chin <alexandra.chin@tw.synaptics.com>
  * Copyright (C) 2012 Scott Lin <scott.lin@tw.synaptics.com>
- * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -135,6 +134,17 @@
 
 #define DOUBLE_TAP	0x01
 #define HOMEKEY_WAKEUP	0x80
+#define F51_CUSTOM_PALM_CTL 0x063B
+#define F12_2D_CTRL23  0x001A
+#define F51_CUSTOM_CTRL109 0x063B
+#define F51_CUSTOM_CTRL110 0x063C
+#define F51_CUSTOM_CTRL111 0x063D
+#define F51_CUSTOM_CTRL112 0x063E
+#define F51_CUSTOM_CTRL113 0x063F
+#define F51_CUSTOM_CTRL114 0x0640
+#define F51_CUSTOM_CTRL115 0x0641
+
+#define F54_FORCE_UPDATE 0x169
 
 #define INPUT_EVENT_START			0
 #define INPUT_EVENT_SENSITIVE_MODE_OFF		0
@@ -964,7 +974,7 @@ static ssize_t synaptics_secure_touch_enable_store(struct device *dev,
 		err = -EINVAL;
 		break;
 	}
-	dev_err(data->pdev->dev.parent, "synaptics_secure_touch_enable_store err=%x\n", err);
+       dev_err(data->pdev->dev.parent, "synaptics_secure_touch_enable_store err=%x\n", err);
 	return err;
 }
 
@@ -4924,7 +4934,6 @@ static int synaptics_rmi4_probe(struct platform_device *pdev)
 	rmi4_data->reset_device = synaptics_rmi4_reset_device;
 	rmi4_data->irq_enable = synaptics_rmi4_irq_enable;
 	rmi4_data->sleep_enable = synaptics_rmi4_sleep_enable;
-
 
 	mutex_init(&(rmi4_data->rmi4_reset_mutex));
 	mutex_init(&(rmi4_data->rmi4_report_mutex));
