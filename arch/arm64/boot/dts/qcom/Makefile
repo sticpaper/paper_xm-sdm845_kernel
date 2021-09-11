@@ -76,10 +76,7 @@ dtb-y += \
 	sdm845-v2-mtp.dtb \
 	sdm845-v2-cdp.dtb \
 	sdm845-qrd.dtb \
-	sdm845-v2-qrd.dtb \
-	sdm845-4k-panel-mtp.dtb \
-	sdm845-4k-panel-cdp.dtb \
-	sdm845-4k-panel-qrd.dtb
+	sdm845-v2-qrd.dtb
 
 dtb-$(CONFIG_MACH_XIAOMI_D5X) += \
 	polaris-p0.dtb \
