@@ -26,7 +26,6 @@
 #include <linux/gpio.h>
 #include <linux/string.h>
 #include <linux/of_gpio.h>
-#include <linux/hwinfo.h>
 #include <linux/power_supply.h>
 #include <linux/notifier.h>
 #include <linux/fb.h>
@@ -2619,7 +2618,6 @@ start:
 			dev_err(dev, "No lockdown info stored\n");
 		}
 	}
-	update_hardware_info(TYPE_TP_MAKER, data->panel_id - 0x31);
 	config_name = mxt_get_config(data, use_default_cfg);
 
 	if (data->config_info[0] >= 0x65) {
@@ -6737,7 +6735,6 @@ static int mxt_probe(struct i2c_client *client,
 	mxt_debugfs_init(data);
 
 	normal_mode_reg_save(data);
-	update_hardware_info(TYPE_TOUCH, 2);
 	data->finish_init = 1;
 
 	proc_create("tp_selftest", 0664, NULL, &mxt_selftest_ops);

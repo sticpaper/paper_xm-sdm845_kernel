@@ -45,7 +45,6 @@
 #ifdef CONFIG_TOUCHSCREEN_ST_DEBUG_FS
 #include <linux/debugfs.h>
 #endif
-#include <linux/hwinfo.h>
 #include <linux/proc_fs.h>
 #include <linux/uaccess.h>
 #include <linux/vmalloc.h>
@@ -3707,7 +3706,6 @@ static int fts_probe(struct i2c_client *client, const struct i2c_device_id *idp)
 		goto ProbeErrorExit_7;
 	}
 
-	update_hardware_info(TYPE_TOUCH, 4);
 	error = fts_get_lockdown_info(info->lockdown_info);
 
 	if (error < OK)
@@ -3716,7 +3714,6 @@ static int fts_probe(struct i2c_client *client, const struct i2c_device_id *idp)
 		log_error("%s Lockdown:0x%02x,0x%02x,0x%02x,0x%02x,0x%02x,0x%02x,0x%02x,0x%02x\n", tag,
 				info->lockdown_info[0], info->lockdown_info[1], info->lockdown_info[2], info->lockdown_info[3],
 				info->lockdown_info[4], info->lockdown_info[5], info->lockdown_info[6], info->lockdown_info[7]);
-		update_hardware_info(TYPE_TP_MAKER, info->lockdown_info[0] - 0x30);
 	}
 
 	dev_set_drvdata(&client->dev, info);
