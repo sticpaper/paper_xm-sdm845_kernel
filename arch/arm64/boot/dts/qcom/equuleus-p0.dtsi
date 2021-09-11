@@ -16,7 +16,6 @@
 #include "sdm845-pmic-overlay.dtsi"
 #include "sdm845-pinctrl-overlay.dtsi"
 #include "sdm845-xiaomi-common.dtsi"
-//#include "dipper-camera-sensor-mtp.dtsi"
 #include "equuleus-p0-camera-sensor-mtp.dtsi"
 
 &qupv3_se10_i2c {
@@ -482,8 +481,8 @@
 		interrupt-names = "nfc_irq";
 		pinctrl-names = "nfc_active", "nfc_suspend";
 		pinctrl-0 = <&nfc_int_active
-				&nfc_enable_active
-				&nfc_clk_default>;
+			&nfc_enable_active
+			&nfc_clk_default>;
 		pinctrl-1 = <&nfc_int_suspend &nfc_enable_suspend>;
 		clocks = <&clock_rpmh RPMH_LN_BB_CLK3>;
 		clock-names = "ref_clk";

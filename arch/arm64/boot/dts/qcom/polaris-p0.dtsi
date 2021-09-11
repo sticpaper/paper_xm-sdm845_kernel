@@ -31,11 +31,11 @@
 };
 
 &reserved_memory {
-		ramdump_fb_mem: ramdump_fb_region@af000000 {
-			compatible = "removed-dma-pool";
-			no-map;
-			reg = <0 0xaf000000 0 0x1000000>;
-		};
+	ramdump_fb_mem: ramdump_fb_region@af000000 {
+		compatible = "removed-dma-pool";
+		no-map;
+		reg = <0 0xaf000000 0 0x1000000>;
+	};
 };
 
 &vendor {
@@ -409,9 +409,9 @@
 		interrupts = <63 0>;
 		interrupt-names = "nfc_irq";
 		pinctrl-names = "nfc_active", "nfc_suspend";
-                pinctrl-0 = <&nfc_int_active
-                             &nfc_enable_active
-                             &nfc_clk_default>;
+		pinctrl-0 = <&nfc_int_active
+				&nfc_enable_active
+				&nfc_clk_default>;
 		pinctrl-1 = <&nfc_int_suspend &nfc_enable_suspend>;
 		clocks = <&clock_rpmh RPMH_LN_BB_CLK3>;
 		clock-names = "ref_clk";

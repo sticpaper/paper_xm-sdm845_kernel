@@ -16,7 +16,6 @@
 #include "sdm845-pmic-overlay.dtsi"
 #include "sdm845-pinctrl-overlay.dtsi"
 #include "sdm845-xiaomi-common.dtsi"
-//#include "dipper-camera-sensor-mtp.dtsi"
 #include "dipper-p0-camera-sensor-mtp.dtsi"
 
 &qupv3_se10_i2c {
@@ -32,11 +31,11 @@
 };
 
 &reserved_memory {
-		ramdump_fb_mem: ramdump_fb_region@af000000 {
-			compatible = "removed-dma-pool";
-			no-map;
-			reg = <0 0xaf000000 0 0x1000000>;
-		};
+	ramdump_fb_mem: ramdump_fb_region@af000000 {
+		compatible = "removed-dma-pool";
+		no-map;
+		reg = <0 0xaf000000 0 0x1000000>;
+	};
 };
 
 &vendor {
