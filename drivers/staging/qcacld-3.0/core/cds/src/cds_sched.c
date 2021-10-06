@@ -795,15 +795,7 @@ static int cds_ol_rx_thread(void *arg)
 	bool shutdown = false;
 	int status;
 
-#ifdef RX_THREAD_PRIORITY
-	struct sched_param scheduler_params = {0};
-
-	scheduler_params.sched_priority = 1;
-	sched_setscheduler(current, SCHED_FIFO, &scheduler_params);
-#else
 	set_user_nice(current, -1);
-#endif
-
 #ifdef MSM_PLATFORM
 	set_wake_up_idle(true);
 #endif
@@ -833,7 +825,7 @@ static int cds_ol_rx_thread(void *arg)
 					complete
 						(&pSchedContext->ol_suspend_rx_event);
 				}
-				cds_debug("Shutting down OL RX Thread");
+				cds_info("Shutting down OL RX Thread");
 				shutdown = true;
 				break;
 			}
