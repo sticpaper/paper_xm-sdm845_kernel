@@ -501,7 +501,6 @@ static void __exit exit_sdcardfs_fs(void)
 	packagelist_exit();
 	unregister_filesystem(&sdcardfs_fs_type);
 	kmem_cache_destroy(kmem_file_info_pool);
-	pr_info("Completed sdcardfs module unload\n");
 }
 
 /* Original wrapfs authors */
