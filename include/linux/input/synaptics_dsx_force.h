@@ -185,6 +185,9 @@ struct synaptics_dsx_board_data {
 	unsigned int reset_active_ms;
 	unsigned int byte_delay_us;
 	unsigned int block_delay_us;
+	unsigned int palm_rx_channel;
+	unsigned int palm_rx_area;
+	unsigned int palm_tx_disable;
 	bool cut_off_power;
 	bool power_ctrl;
 	bool panel_is_incell;
